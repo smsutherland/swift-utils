@@ -29,6 +29,7 @@ def main():
     write_param_file(target_dir, Omega_b=Omega_b, run_name=run_name, **params)
 
     copy_misc_files(target_dir)
+    write_cosmo_params(target_dir, params)
 
 def convert_ic(ic_dir: Path, target: Path, omega_baryon):
     convert.gadget2swift(str(ic_dir / "ics"), omega_baryon, out=target)
@@ -47,7 +48,6 @@ def read_params(sim_dir: Path) -> dict:
         "A_AGN1",
         "A_SN2",
         "A_AGN2",
-        "seed",
     ]
     return dict(zip(names, params))
 
@@ -62,6 +62,18 @@ def copy_misc_files(target_dir: Path):
     dir = Path(__file__).parent / "link_files"
     for fname in dir.iterdir():
         (target_dir / fname.name).symlink_to(fname)
+
+def write_cosmo_params(target_dir: Path, params: dict):
+    with open(target_dir / "CosmoAstro_params.txt", "w") as f:
+        f.write(
+            f"{params['Omega_m']:.5f} "
+            f"{params['sigma_8']:.5f} "
+            f"{params['A_SN1']:.5f} "
+            f"{params['A_AGN1']:.5f} "
+            f"{params['A_SN2']:.5f} "
+            f"{params['A_AGN2']:.5f}\n"
+        )
+
 
 if __name__ == "__main__":
     main()
