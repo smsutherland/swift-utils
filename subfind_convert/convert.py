@@ -38,7 +38,7 @@ def main():
 
     params["BoxSize"] = get_boxsize_from_snap("./snaps")
 
-    with open("./snaps/subs/arepo_subfind_params.txt", "w") as f:
+    with open("./snaps/subs/arepo_subfind_param.txt", "w") as f:
         f.write(make_param_file(params))
 
     make_jobscript(snaps)
