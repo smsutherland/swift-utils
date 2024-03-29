@@ -41,6 +41,8 @@ def main():
     with open("./snaps/subs/arepo_subfind_params.txt", "w") as f:
         f.write(make_param_file(params))
 
+    make_jobscript(snaps)
+
 
 def read_from_param_yml(fname="params.yml"):
     with open(fname) as f:
@@ -67,6 +69,43 @@ def get_boxsize_from_snap(snap_dir):
         ).value.mean() # average over all three axes (they should all be the same anyway)
         * 1000 # convert to kpc/h
     )
+
+def make_jobscript(nums):
+    fname = "./snaps/subs/job.sh"
+    text = f"""#!/bin/bash -l
+#########################################################
+#SBATCH -J SWIFT_SUBFIND
+#SBATCH -p gen
+#SBATCH --mail-user=sagan.sutherland@uconn.edu
+#SBATCH --mail-type=END 
+#SBATCH --constraint="skylake"
+#SBATCH -o subfind_%a.log
+#########################################################
+#SBATCH --time=1:0:0
+#SBATCH --ntasks=1
+#SBATCH --ntasks-per-node=40
+#SBATCH --exclusive
+#########################################################
+#SBATCH --array={",".join(map(str, nums))}
+#########################################################
+
+module --force purge
+module add modules/2.0-20220630
+module add slurm
+module add disBatch/2.0
+module add gcc/7.5.0
+module add openmpi/4.0.7
+module add hdf5/mpi-1.10.8
+module add gmp/6.2.1
+module add fftw/3.3.10
+module add openblas/threaded-0.3.20
+module add gsl/2.7
+module add hwloc/2.7.1
+
+mpiexec -n 40 ~/codes/Arepo_subfind_v2/Arepo ./arepo_subfind_param.txt 3 $SLURM_ARRAY_TASK_ID
+"""
+    with open(fname, "w") as f:
+        f.write(text)
 
 if __name__ == "__main__":
     main()

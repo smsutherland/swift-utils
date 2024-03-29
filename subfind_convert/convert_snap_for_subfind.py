@@ -30,7 +30,7 @@ def convert(snap_number, in_directory, out_directory=None, verbose=False):
     out_snap = f'subsnap_{snap_number:03d}.hdf5'
 
     if verbose:
-        print((f'Input Directory: {in_directory}\n Output Directory: {out_directory}'
+        print((f'Input Directory: {in_directory}\nOutput Directory: {out_directory}\n'
                f'Snap number: {snap_number}\nOutput snap name: {out_snap}\n'))
 
     output_units = {
