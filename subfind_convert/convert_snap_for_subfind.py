@@ -64,7 +64,7 @@ def convert(snap_number, in_directory, out_directory=None, verbose=False):
         with h5py.File(f'{in_directory}/{snap}', 'r') as hf_in:
 
             scale_factor = hf_in['Cosmology'].attrs['Scale-factor']
-            hubble_param = hf_in['Cosmology'].attrs['H [internal units]'] / 100
+            hubble_param = hf_in['Cosmology'].attrs['h']
 
             fields = [
                 ['PartType0/ParticleIDs', 'PartType0/ParticleIDs', None],
