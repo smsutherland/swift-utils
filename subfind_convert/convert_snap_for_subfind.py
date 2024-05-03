@@ -1,5 +1,8 @@
 #!/bin/env python
 
+# Subfind conversion scripy by Christopher Lovell
+# Modified by Sagan Sutherland
+
 import os
 import h5py
 
