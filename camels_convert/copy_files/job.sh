@@ -22,6 +22,6 @@ module load fftw/mpi-3.3.10
 
 ./swift --pin --cosmology --simba --threads=${SLURM_CPUS_PER_TASK} params.yml
 mkdir snaps
-cp snapshot*.hdf5 snaps/
+mv snapshot*.hdf5 snaps/
 
 #########################################################
