@@ -1,6 +1,7 @@
 def make_param_file(run_name, A_SN1, A_SN2, A_AGN1, A_AGN2, Omega_m, Omega_b, **kwargs):
+    h = 0.7711
     Omega_cdm = Omega_m - Omega_b
-    Omega_lambda = 1. - Omega_m
+    Omega_lambda = 1.0 - Omega_m
     return f"""
 # Define some meta-data about the simulation
 MetaData:
@@ -16,7 +17,7 @@ InternalUnitSystem:
 
 # Cosmological parameters
 Cosmology:
-  h:              0.6711        # Reduced Hubble constant
+  h:              {h}        # Reduced Hubble constant
   a_begin:        0.0078125     # Initial scale-factor of the simulation
   a_end:          1.0           # Final scale factor of the simulation
   Omega_cdm:      {Omega_cdm}     # Cold Dark Matter density parameter
@@ -49,11 +50,11 @@ Gravity:
   MAC:                         geometric # Use the geometric opening angle condition
   theta_cr:                    0.7       # Opening angle (Multipole acceptance criterion)
   use_tree_below_softening:    0
-  mesh_side_length:            128
-  comoving_DM_softening:         0.002941 # Comoving softening for DM (6.67 ckpc)
-  max_physical_DM_softening:     0.002941 # Physical softening for DM (2.60 pkpc)
-  comoving_baryon_softening:     0.002941 # Comoving softening for baryons (3.58 ckpc)
-  max_physical_baryon_softening: 0.002941 # Physical softening for baryons (1.40 pkpc)
+  mesh_side_length:            256
+  comoving_DM_softening:         0.0005 # Comoving softening for DM
+  max_physical_DM_softening:     0.0005 # Physical softening for DM
+  comoving_baryon_softening:     0.0005 # Comoving softening for baryons
+  max_physical_baryon_softening: 0.0005 # Physical softening for baryons
 
 # Parameters for the hydrodynamics scheme
 SPH:
@@ -143,8 +144,8 @@ SIMBAStarFormation:
   KS_high_density_exponent:          1.4          # Slope of the Kennicut-Schmidt law above the high-density threshold.
   threshold_temperature1_K:          100.0        # When using subgrid-based SF threshold, subgrid temperature below which gas is star-forming.
   threshold_temperature2_K:          1.e5        # When using subgrid-based SF threshold, subgrid temperature below which gas is star-forming if also above the density limit.
-  threshold_number_density_H_p_cm3:  0.1           # When using subgrid-based SF threshold, subgrid number density above which gas is star-forming if also below the second temperature limit.
-  H2_model:                          Thresh    # 'Thresh' sets fH2=1; 'KMT' computes fH2 from KG11; 'Grackle' uses Grackle-computed fH2
+  threshold_number_density_H_p_cm3:  0.13           # When using subgrid-based SF threshold, subgrid number density above which gas is star-forming if also below the second temperature limit.
+  H2_model:                          KMT    # 'Thresh' sets fH2=1; 'KMT' computes fH2 from KG11; 'Grackle' uses Grackle-computed fH2
   clumping_factor_scaling:           1.0        # scaling with resolution of KMT clumping factor
   
 # Parameters for the EAGLE "equation of state"
@@ -181,31 +182,31 @@ SIMBAFeedback:
   stellar_evolution_sampling_rate:       10             # Number of time-steps in-between two enrichment events for a star above the age threshold.
   SNII_yield_factor_Hydrogen:           1.0             # (Optional) Correction factor to apply to the Hydrogen yield from the SNII channel.
   SNII_yield_factor_Helium:             1.0             # (Optional) Correction factor to apply to the Helium yield from the SNII channel.
-  SNII_yield_factor_Carbon:             0.5             # (Optional) Correction factor to apply to the Carbon yield from the SNII channel.
-  SNII_yield_factor_Nitrogen:           0.5             # (Optional) Correction factor to apply to the Nitrogen yield from the SNII channel.
-  SNII_yield_factor_Oxygen:             0.5             # (Optional) Correction factor to apply to the Oxygen yield from the SNII channel.
-  SNII_yield_factor_Neon:               0.5             # (Optional) Correction factor to apply to the Neon yield from the SNII channel.
-  SNII_yield_factor_Magnesium:          0.5             # (Optional) Correction factor to apply to the Magnesium yield from the SNII channel.
-  SNII_yield_factor_Silicon:            0.5             # (Optional) Correction factor to apply to the Silicon yield from the SNII channel.
-  SNII_yield_factor_Iron:               0.5             # (Optional) Correction factor to apply to the Iron yield from the SNII channel.
+  SNII_yield_factor_Carbon:             1.0             # (Optional) Correction factor to apply to the Carbon yield from the SNII channel.
+  SNII_yield_factor_Nitrogen:           1.0             # (Optional) Correction factor to apply to the Nitrogen yield from the SNII channel.
+  SNII_yield_factor_Oxygen:             1.0             # (Optional) Correction factor to apply to the Oxygen yield from the SNII channel.
+  SNII_yield_factor_Neon:               1.0             # (Optional) Correction factor to apply to the Neon yield from the SNII channel.
+  SNII_yield_factor_Magnesium:          1.0             # (Optional) Correction factor to apply to the Magnesium yield from the SNII channel.
+  SNII_yield_factor_Silicon:            1.0             # (Optional) Correction factor to apply to the Silicon yield from the SNII channel.
+  SNII_yield_factor_Iron:               1.0             # (Optional) Correction factor to apply to the Iron yield from the SNII channel.
   FIRE_velocity_normalization:          {1.6*A_SN2}
   FIRE_velocity_slope:                  0.12
   FIRE_eta_normalization:               {9.0*A_SN1}
   FIRE_eta_break_Msun:                  5.2e9
   FIRE_eta_lower_slope:                 -0.317
   FIRE_eta_upper_slope:                 -0.761
-  early_wind_suppression_enabled:       0
+  early_wind_suppression_enabled:       1
   early_stellar_mass_norm_Msun:         2.9e8
-  early_wind_suppression_scale_factor:  0.0
-  early_wind_suppression_slope:         0.0
-  minimum_galaxy_stellar_mass_Msun:     5.8e8             # Minimum mass to consider galaxy for SF. Simba: 6.4e8
+  early_wind_suppression_scale_factor:  0.25
+  early_wind_suppression_slope:         2.0
+  minimum_galaxy_stellar_mass_Msun:     6.4e8             # Minimum mass to consider galaxy for SF. Simba: 6.4e8
   kick_velocity_scatter:                0.0               # Made to be 0 for no scatter
-  wind_decouple_time_factor:            0.02
+  wind_decouple_time_factor:            0.1
   SN_energy_scale:                      100               # never limit wind velocity due to available supernova energy
 
 # Simba AGN model
 SIMBAAGN:
-  subgrid_seed_mass_Msun:             1.0e4           # Black hole subgrid mass at creation time in solar masses.
+  subgrid_seed_mass_Msun:             {1.0e4/h}           # Black hole subgrid mass at creation time in solar masses.
   use_multi_phase_bondi:              0               # Compute Bondi rates per neighbour particle?
   use_subgrid_bondi:                  0               # Compute Bondi rates using the subgrid extrapolation of the gas properties around the BH?
   with_angmom_limiter:                0               # Are we applying the Rosas-Guevara et al. (2015) viscous time-scale reduction term?
@@ -215,7 +216,7 @@ SIMBAAGN:
   radiative_efficiency:               0.1             # Fraction of the accreted mass that gets radiated.
   use_nibbling:                       1               # Continuously transfer small amounts of mass from all gas neighbours to a black hole [1] or stochastically swallow whole gas particles [0]?
   min_gas_mass_for_nibbling_Msun:          5.0e5           # Minimum mass for a gas particle to be nibbled from [M_Sun]. Only used if use_nibbling is 1.
-  max_eddington_fraction:             10.              # Maximal allowed accretion rate in units of the Eddington rate.
+  max_eddington_fraction:             3.              # Maximal allowed accretion rate in units of the Eddington rate.
   eddington_fraction_for_recording:   0.1             # Record the last time BHs reached an Eddington ratio above this threshold.
   coupling_efficiency:                0.1             # Fraction of the radiated energy that couples to the gas in feedback events.
   AGN_feedback_model:                 MinimumDistance # Feedback modes: Random, Isotropic, MinimumDistance, MinimumDensity
@@ -233,8 +234,8 @@ SIMBAAGN:
   AGN_use_nheat_with_fixed_dT:        0               # Switch to use the constant AGN dT, rather than the adaptive one, for calculating the energy reservoir threshold.
   AGN_use_adaptive_energy_reservoir_threshold: 0      # Switch to calculate an adaptive AGN energy reservoir threshold.
   AGN_num_ngb_to_heat:                1.              # Target number of gas neighbours to heat in an AGN feedback event (only used if AGN_use_adaptive_energy_reservoir_threshold is 0).
-  max_reposition_mass:                1e20            # Maximal BH mass considered for BH repositioning in solar masses (large number implies we always reposition).
-  max_reposition_distance_ratio:      3.0             # Maximal distance a BH can be repositioned, in units of the softening length.
+  max_reposition_mass:                1e30            # Maximal BH mass considered for BH repositioning in solar masses (large number implies we always reposition).
+  max_reposition_distance_ratio:      4.0             # Maximal distance a BH can be repositioned, in units of the softening length.
   with_reposition_velocity_threshold: 0               # Should we only reposition to particles that move slowly w.r.t. the black hole?
   set_reposition_speed:               0               # Should we reposition black holes with (at most) a prescribed speed towards the potential minimum?
   threshold_major_merger:             0.333           # Mass ratio threshold to consider a BH merger as 'major'
@@ -247,19 +248,19 @@ SIMBAAGN:
   scale_jet_temperature_with_mass:    1        # use Tjet ~ MBH^2/3.
   jet_temperature:                    1.0e8    # T of jet ejected particles; if scaled, this is T at MBH=1.e9
   eddington_fraction_lower_boundary:  0.2
-  jet_mass_min_Msun:                  4.0e7
-  jet_mass_spread_Msun:               2.0e7
+  jet_mass_min_Msun:                  3.1e7
+  jet_mass_spread_Msun:               0.0
   environment_temperature_cut:        1.0e5
   with_potential_correction:          1
   wind_momentum_flux:                 {20.0*A_AGN1}
   f_accretion:                        0.1       # Bondi accretion rate is multiplied by this
-  torque_accretion_norm:              0.003    # Torque accretion rate is multiplied by this
+  torque_accretion_norm:              1.0      # Torque accretion rate is multiplied by this
   xray_heating_velocity_threshold:    9999.0    # Set high to turn off x-ray feedback
   xray_maximum_heating_factor:        1000000.0    # OPTIONAL: Default 1000.0 * u_part,gas
   xray_kinetic_fraction:              0.5       # OPTIONAL: Default 0.5
   xray_heating_n_H_threshold_cgs:     0.13      # OPTIONAL: Default 0.13 cm^-3
-  xray_heating_T_threshold_cgs:       1.0e5     # OPTIONAL: Default 5.0e5
-  xray_shutoff_cooling:               1         # shut off cooling for dyn time after being kicked/heated by X-ray feedback
+  xray_heating_T_threshold_cgs:       3.1e5     # OPTIONAL: Default 5.0e5
+  xray_shutoff_cooling:               0         # shut off cooling for dyn time after being kicked/heated by X-ray feedback
   dt_accretion_factor:                0.05      # OPTIONAL: Default 1.0, timestep limiter 5% growth
   xray_radiation_loss:                1.0       # radiative loss factor for X-ray feedback (1=no loss, 0=no xray fb)
   xray_f_gas_limit:                   0.5       # X-ray feedback only active if cold gas frac within BH kernel is lower than this, and linearly scales with lowering f_gas.
