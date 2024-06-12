@@ -1,5 +1,5 @@
 def make_param_file(run_name, A_SN1, A_SN2, A_AGN1, A_AGN2, Omega_m, Omega_b, **kwargs):
-    h = 0.7711
+    h = 0.6711
     Omega_cdm = Omega_m - Omega_b
     Omega_lambda = 1.0 - Omega_m
     return f"""
