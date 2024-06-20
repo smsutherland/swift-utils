@@ -5,7 +5,7 @@
 #SBATCH --mail-user=sagan.sutherland@uconn.edu
 #SBATCH --mail-type=ALL
 #SBATCH --constraint="skylake"
-#SBATCH -o swift.log
+#SBATCH -o swift.%A.log
 #########################################################
 #SBATCH --time=7-0
 #SBATCH --ntasks=1
