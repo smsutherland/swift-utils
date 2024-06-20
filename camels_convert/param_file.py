@@ -201,7 +201,7 @@ SIMBAFeedback:
   early_wind_suppression_slope:         2.0
   minimum_galaxy_stellar_mass_Msun:     6.4e8             # Minimum mass to consider galaxy for SF. Simba: 6.4e8
   kick_velocity_scatter:                0.0               # Made to be 0 for no scatter
-  wind_decouple_time_factor:            0.1
+  wind_decouple_time_factor:            0.02
   SN_energy_scale:                      100               # never limit wind velocity due to available supernova energy
 
 # Simba AGN model
