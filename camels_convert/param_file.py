@@ -96,8 +96,12 @@ Scheduler:
   cell_split_size:       200
   
 Restarts:
+  enable: 1
   onexit:       1
   delta_hours:  0.5
+  max_run_time: 167.0
+  resubmit_on_exit: 1
+  resubmit_command: sbatch ./restart.sh
 
 # Parameters related to the initial conditions
 InitialConditions:
