@@ -20,8 +20,6 @@ module load openmpi/4.0.7
 module load hdf5/mpi-1.8.22
 module load fftw/mpi-3.3.10
 
-./swift --pin --cosmology --simba --threads=${SLURM_CPUS_PER_TASK} params.yml
-mkdir snaps
-mv snapshot*.hdf5 snaps/
+./swift --pin --cosmology --simba --threads=${SLURM_CPUS_PER_TASK} params.yml && mkdir snaps && mv snapshot*.hdf5 snaps/
 
 #########################################################
