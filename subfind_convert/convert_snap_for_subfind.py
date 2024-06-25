@@ -244,7 +244,10 @@ def convert(snap_number, in_directory, out_directory=None, verbose=False):
             hf_out["Header"].attrs["Flag_StellarAge"] = 0
 
             ## fix boxsize dimensions (3 -> 1)
-            hf_out["Header"].attrs["BoxSize"] = hf_out["Header"].attrs["BoxSize"][0]
+            ## Mpc -> kpc/h
+            hf_out["Header"].attrs["BoxSize"] = (
+                hf_out["Header"].attrs["BoxSize"][0] * hubble_param[0] * 1000.0
+            )
 
             ## Remove extra PartType (7 -> 6)
             hf_out["Header"].attrs["NumPartTypes"] = 6
