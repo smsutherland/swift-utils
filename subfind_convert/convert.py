@@ -16,6 +16,7 @@ This is meant to be run in the swift directory itself, not the snaps directory.
 If you which to convert a single snapshot outside of the context of a swift camels run, use
 convert_snap_for_subfind.py"""
 
+
 def main():
     if len(sys.argv) <= 1:
         print(usage)
@@ -26,7 +27,7 @@ def main():
         os.mkdir("./snaps/subs")
 
     try:
-        snaps = [int(x) for x in sys.argv[1 + verbose:]]
+        snaps = [int(x) for x in sys.argv[1 + verbose :]]
     except ValueError:
         print(usage)
         return
@@ -62,13 +63,14 @@ def get_boxsize_from_snap(snap_dir):
     snaps = glob(snap_dir + "/snapshot_*.hdf5")
     snapname = snaps[0]
     snap = ssio.load(snapname)
-    return round( # round to nearest whole number
+    return round(  # round to nearest whole number
         (
-            snap.metadata.boxsize # in Mpc
-            * snap.metadata.cosmology.h # convert to Mpc/h
-        ).value.mean() # average over all three axes (they should all be the same anyway)
-        * 1000 # convert to kpc/h
+            snap.metadata.boxsize  # in Mpc
+            * snap.metadata.cosmology.h  # convert to Mpc/h
+        ).value.mean()  # average over all three axes (they should all be the same anyway)
+        * 1000  # convert to kpc/h
     )
+
 
 def make_jobscript(nums):
     fname = "./snaps/subs/job.sh"
@@ -106,6 +108,7 @@ mpiexec -n 40 ~/codes/Arepo_subfind_v2/Arepo ./arepo_subfind_param.txt 3 $SLURM_
 """
     with open(fname, "w") as f:
         f.write(text)
+
 
 if __name__ == "__main__":
     main()
