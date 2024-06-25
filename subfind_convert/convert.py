@@ -75,7 +75,7 @@ def make_jobscript(nums):
     text = f"""#!/bin/bash -l
 #########################################################
 #SBATCH -J SWIFT_SUBFIND
-#SBATCH -p gen
+#SBATCH -p cmbas
 #SBATCH --mail-user=sagan.sutherland@uconn.edu
 #SBATCH --mail-type=END 
 #SBATCH --constraint="skylake"
