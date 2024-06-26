@@ -104,6 +104,7 @@ module add openblas/threaded-0.3.20
 module add gsl/2.7
 module add hwloc/2.7.1
 
+echo job id: $SLURM_JOBID
 mpiexec -n 40 ~/codes/Arepo_subfind_v2/Arepo ./arepo_subfind_param.txt 3 $SLURM_ARRAY_TASK_ID
 """
     with open(fname, "w") as f:
