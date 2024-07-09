@@ -48,14 +48,19 @@ def main():
 def read_from_param_yml(fname="params.yml"):
     with open(fname) as f:
         params = yamload(f, CLoader)
+    h = params["Cosmology"]["h"]
     return {
         "Omega_m": params["Cosmology"]["Omega_b"] + params["Cosmology"]["Omega_cdm"],
         "Omega_b": params["Cosmology"]["Omega_b"],
-        "H0": params["Cosmology"]["h"],
-        "SofteningComovingType1": params["Gravity"]["comoving_DM_softening"],
-        "SofteningComoving": params["Gravity"]["comoving_baryon_softening"],
-        "SofteningMaxPhysType1": params["Gravity"]["max_physical_DM_softening"],
-        "SofteningMaxPhys": params["Gravity"]["max_physical_baryon_softening"],
+        "H0": h,
+        "SofteningComovingType1": params["Gravity"]["comoving_DM_softening"] * 1000 * h,
+        "SofteningComoving": params["Gravity"]["comoving_baryon_softening"] * 1000 * h,
+        "SofteningMaxPhysType1": params["Gravity"]["max_physical_DM_softening"]
+        * 1000
+        * h,
+        "SofteningMaxPhys": params["Gravity"]["max_physical_baryon_softening"]
+        * 1000
+        * h,
     }
 
 
@@ -105,7 +110,7 @@ module add gsl/2.7
 module add hwloc/2.7.1
 
 echo job id: $SLURM_JOBID
-mpiexec -n 40 ~/codes/Arepo_subfind_v2/Arepo ./arepo_subfind_param.txt 3 $SLURM_ARRAY_TASK_ID
+mpiexec -n 40 /mnt/home/ssutherland/codes/Arepo_subfind_v2/Arepo ./arepo_subfind_param.txt 3 $SLURM_ARRAY_TASK_ID
 """
     with open(fname, "w") as f:
         f.write(text)

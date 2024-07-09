@@ -273,7 +273,7 @@ def convert(snap_number, in_directory, out_directory=None, verbose=False):
                 if field[3]:
                     temp[temp < 0] = 0.0
 
-                if (conv_factor != 1.0) & (field[2] != None):
+                if (conv_factor != 1.0) & (field[2] is not None):
                     conv_factor /= field[2]
                     temp *= conv_factor
 
