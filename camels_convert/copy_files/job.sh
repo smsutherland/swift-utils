@@ -13,7 +13,7 @@
 #########################################################
 
 module purge
-module load modules
+module load modules/2.2-20230808
 module load gcc/11.4.0
 module load gsl/2.7
 module load openmpi/4.0.7
