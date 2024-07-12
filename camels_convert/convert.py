@@ -31,12 +31,15 @@ def main():
     copy_misc_files(target_dir)
     write_cosmo_params(target_dir, params)
 
+
 def convert_ic(ic_dir: Path, target: Path, omega_baryon):
     convert.gadget2swift(str(ic_dir / "ics"), omega_baryon, out=target)
 
+
 def write_param_file(target_dir: Path, **kwargs):
-    with open(target_dir/"params.yml", "w") as f:
+    with open(target_dir / "params.yml", "w") as f:
         f.write(make_param_file(**kwargs))
+
 
 def read_params(sim_dir: Path) -> dict:
     with open(sim_dir / "CosmoAstro_params.txt") as f:
@@ -51,6 +54,7 @@ def read_params(sim_dir: Path) -> dict:
     ]
     return dict(zip(names, params))
 
+
 def copy_misc_files(target_dir: Path):
     dir = Path(__file__).parent / "copy_files"
     for fname in dir.iterdir():
@@ -62,6 +66,7 @@ def copy_misc_files(target_dir: Path):
     dir = Path(__file__).parent / "link_files"
     for fname in dir.iterdir():
         (target_dir / fname.name).symlink_to(fname)
+
 
 def write_cosmo_params(target_dir: Path, params: dict):
     with open(target_dir / "CosmoAstro_params.txt", "w") as f:
