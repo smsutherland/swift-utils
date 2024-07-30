@@ -4,12 +4,12 @@
 #SBATCH -p cmbas
 #SBATCH --mail-user=sagan.sutherland@uconn.edu
 #SBATCH --mail-type=ALL
-#SBATCH --constraint="skylake"
+#SBATCH --constraint="ib-icelake"
 #SBATCH -o swift.%A.log
 #########################################################
 #SBATCH --time=7-0
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=40
+#SBATCH --cpus-per-task=64
 #########################################################
 
 module purge
