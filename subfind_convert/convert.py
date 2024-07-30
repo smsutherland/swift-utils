@@ -85,7 +85,6 @@ def make_jobscript(nums):
 #SBATCH -p cmbas
 #SBATCH --mail-user=sagan.sutherland@uconn.edu
 #SBATCH --mail-type=END 
-#SBATCH --constraint="skylake"
 #SBATCH -o subfind_%a.log
 #########################################################
 #SBATCH --time=1:0:0
